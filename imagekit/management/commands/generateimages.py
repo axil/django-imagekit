@@ -25,7 +25,10 @@ well as "a:b" and "a:b:c".""")
             self.stdout.write('Validating generator: %s\n' % generator_id)
             for image_file in cachefile_registry.get(generator_id):
                 if image_file.name:
-                    self.stdout.write('  %s\n' % image_file.name)
+                    try:
+                        self.stdout.write(u'  %s\n' % image_file.name)
+                    except:
+                        import ipdb; ipdb.set_trace()
                     try:
                         image_file.generate()
                     except MissingSource as err:

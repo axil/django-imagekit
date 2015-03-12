@@ -89,3 +89,29 @@ def hash(generator):
     ext = format_to_extension(format) if format else ''
     return os.path.normpath(os.path.join(settings.IMAGEKIT_CACHEFILE_DIR,
                                          '%s%s' % (generator.get_hash(), ext)))
+
+def cache_dir_source_name(generator):
+    """
+    A namer that, given the following source file name::
+
+        photos/thumbnails/bulldog.jpg
+
+    will generate a name like this::
+
+        /path/to/generated/images/cache_dir/photos/thumbnails/bulldog.jpg
+
+    where "/path/to/generated/images/" is the value specified by the
+    ``IMAGEKIT_CACHEFILE_DIR`` setting and "cache_dir" is the value 
+    specified by ``ImageSpecField`` keyword argument.
+
+    NB The user is responsible of choosing cache_dir unique enough to 
+    avoid collisions!
+
+    """
+    source_filename = getattr(generator.source, 'name', None)
+    basename = source_filename.replace(generator.source.field.upload_to, '').lstrip(os.path.sep)
+    dir = settings.IMAGEKIT_CACHEFILE_DIR
+    subdir = generator.cache_dir
+    return os.path.normpath(os.path.join(dir, subdir, basename))
+ 
+

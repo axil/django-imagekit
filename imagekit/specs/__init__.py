@@ -1,3 +1,4 @@
+from __future__ import print_function
 from copy import copy
 from django.conf import settings
 from django.db.models.fields.files import ImageFieldFile
@@ -67,6 +68,11 @@ class ImageSpec(BaseImageSpec):
 
     """
 
+    cache_dir = None
+    """
+    Used by cache_dir_source_name namer for constructing the thumbnail file path.
+    """
+    
     options = None
     """
     A dictionary that will be passed to PIL's ``Image.save()`` method as keyword
